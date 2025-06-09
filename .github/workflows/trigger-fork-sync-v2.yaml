@@ -8,6 +8,9 @@ on:
       fork_repo:
         required: true
         type: string
+      branch:
+        required: true
+        type: string
     secrets:
       PAT:
         required: true
@@ -22,3 +25,7 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: ${{ inputs.fork_repo }}
           event-type: sync-from-upstream
+          client-payload: |
+            {
+              "branch": "${{ inputs.branch }}"
+            }
