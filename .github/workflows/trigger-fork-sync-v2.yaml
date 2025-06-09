@@ -1,20 +1,11 @@
-# common-actions/.github/workflows/trigger-fork-sync.yml
+# common-actions/.github/workflows/trigger-fork-sync-v2.yml
 
 name: Trigger Fork Sync V2
 
 on:
   workflow_call:
     inputs:
-      source_repo:
-        required: true
-        type: string
-      source_branch:
-        required: true
-        type: string
       fork_repo:
-        required: true
-        type: string
-      target_branch:
         required: true
         type: string
     secrets:
@@ -25,15 +16,9 @@ jobs:
   trigger-fork:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger repository_dispatch on fork
+      - name: Dispatch to fork
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT }}
           repository: ${{ inputs.fork_repo }}
           event-type: sync-from-upstream
-          client-payload: |
-            {
-              "source_repo": "${{ inputs.source_repo }}",
-              "source_branch": "${{ inputs.source_branch }}",
-              "target_branch": "${{ inputs.target_branch }}"
-            }
